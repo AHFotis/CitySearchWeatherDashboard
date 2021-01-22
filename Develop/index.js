@@ -5,7 +5,7 @@ $("#cityBtn").on("click", function () {
     var city = $("#inputDefault").val().trim();
     console.log(city);
 
-    var currentURL = "api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
+    var currentURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
 
     $.ajax({
         method: "GET",
