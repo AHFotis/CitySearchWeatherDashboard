@@ -12,6 +12,16 @@ $("#cityBtn").on("click", function () {
         url: currentURL
     }).then(function(response) {
             console.log(response);
+//Pring location
+            var location = response.name
+            $(".card-title").text(location)
+
+//Print Icon
+            var iconcode = response.weather[0].icon;
+            var iconURL = "http://openweathermap.org/img/wn/" + iconcode + ".png";
+            $(".icon").attr("src", iconURL);
+
+          
         })
 
 })

@@ -19,6 +19,10 @@ label {
    height: 300px
 }
 
+.icon, .card-title {
+    display: inline;
+}
+
 .fiveDay {
     border: 10px solid white;
     justify-self: center;
