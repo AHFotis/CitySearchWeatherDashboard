@@ -11,6 +11,16 @@
     margin: 5px;
 }
 
+label {
+    color: white;
+}
+
+.cityBtn {
+    display: inline;
+    float: left;
+}
+
+
 .card {
    height: 300px
 }
@@ -19,3 +29,4 @@
     border: 10px solid white;
     justify-self: center;
 }
+
