@@ -15,12 +15,6 @@ label {
     color: white;
 }
 
-.cityBtn {
-    display: inline;
-    float: left;
-}
-
-
 .card {
    height: 300px
 }
