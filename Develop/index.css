@@ -16,20 +16,36 @@ label {
 }
 
 .card {
-   height: 300px
+   height: 450px
+}
+
+.card-body {
+    margin: 10px;
 }
 
 .icon, .card-title {
     display: inline;
 }
 
-.fiveDay {
-    border: 10px solid white;
-    justify-self: center;
-}
-
 .badge {
     height: 30px;
     width: 60px;
     font-size: 16px;
+   
+}
+
+.forecast {
+    height: 150px;
+    width: 150px;
+    float: left;
+    margin: 7px;
+}
+
+.forecastTitle {
+    padding-left: 30px;
+}
+
+.dayIcon {
+    height: 50px;
+    width: 50px;
 }

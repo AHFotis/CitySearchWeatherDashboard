@@ -32,8 +32,58 @@ function getUvIndex (lat, long) {
             $(".card-body").append(uvItem);
         })
     }
-    
 
+function fiveDay(city) {
+    $(".fiveDay").empty()
+    $(".forecastTitle").attr("style", "display: inline")
+    
+    var currentURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
+
+    $.ajax({
+        method: "GET",
+        url: currentURL
+    }).then(function (fiveDayResponse) {
+        console.log(fiveDayResponse)
+
+        for (var i = 0; i < 5; i++) {
+            var day = fiveDayResponse.list[i];
+//create variable
+            var dayDiv = $("<div class='card bg-warning forecast'>")
+//create date dive
+            var eachEpoch = moment.unix(day.dt);
+            var eachDate = eachEpoch.format("M/DD/YY")
+            var dateHead = $("<h4>");
+            dateHead.html(eachDate);
+            dayDiv.append(dateHead);
+//create icon div
+            var eachIcon = day.weather[0].icon;
+            var eachURL = "http://openweathermap.org/img/wn/" + eachIcon + ".png";
+            var iconTag = $("<img class='dayIcon'>")
+            iconTag.attr("src", eachURL);
+            dayDiv.append(iconTag);
+//temperature
+            var kelvin = day.main.temp;
+            var farenheit = (kelvin - 273) * 1.8 + 32;
+            var eachTemp = farenheit.toFixed(1);
+
+            var tempTag = $("<p>")
+            tempTag.html("Temperature: " + eachTemp + "&deg F");
+            dayDiv.append(tempTag);
+//humidity
+
+            var humTag = $("<p>");
+            humTag.html("Humidity: " + day.main.humidity + "%");
+           dayDiv.append(humTag);
+           
+            $(".fiveDay").append(dayDiv);
+           
+
+        }
+    })
+
+}
+
+//on click event
 $("#cityBtn").on("click", function () {
     $(".card-text").empty()
 
@@ -55,7 +105,7 @@ $("#cityBtn").on("click", function () {
 
         //Retrieve date and format it
         var epoch = moment.unix(response.dt);
-        var date = epoch.format("(MM/DD/YY)")
+        var date = epoch.format("(M/DD/YY)")
 
         //Pring location and date
         $(".card-title").text(response.name + " " + date);
@@ -97,7 +147,7 @@ $("#cityBtn").on("click", function () {
 
         getUvIndex(lat, long);
         
-
+        fiveDay(city);
     })
 
     
