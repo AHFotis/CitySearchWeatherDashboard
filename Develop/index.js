@@ -1,42 +1,42 @@
 var apiKey = "9cd194d163b26eabb565a48c6fa01c91"
 
 // Function to get and print UV Index
-function getUvIndex (lat, long) {
+function getUvIndex(lat, long) {
 
     //Dollar sign in url = template literals. Back ticks, dollar sign, curly bracket
     //Blake also said something about keeping functions available for page refresh?
-        var uvURL = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${apiKey}`;
-    
-        $.ajax({
-            method: "GET",
-            url: uvURL
-        }).then(function(uvResponse){
-            console.log(uvResponse)
-            var uvItem = $("<p class='card-text'>");
-            uvItem.html("UV Index: ");
-            var numSpan = $("<span class='badge'>");
-            numSpan.html(uvResponse.value);
-            uvItem.append(numSpan);
+    var uvURL = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${apiKey}`;
 
-            if (uvResponse.value <= 5.99) {
-                numSpan.attr("style", "background-color: goldenrod;")
-            } else if (uvResponse.value > 5.99 && uvResponse.value < 8) {
-                numSpan.attr("style", "background-color: orange;")
-            } else if (uvResponse.value > 7.99 && uvResponse.value < 10.99) {
-                numSpan.attr("style", "background-color: red;")
-            } else {
-                numSpan.attr("style", "background-color: violet;")
-            }
+    $.ajax({
+        method: "GET",
+        url: uvURL
+    }).then(function (uvResponse) {
+        console.log(uvResponse)
+        var uvItem = $("<p class='card-text'>");
+        uvItem.html("UV Index: ");
+        var numSpan = $("<span class='badge'>");
+        numSpan.html(uvResponse.value);
+        uvItem.append(numSpan);
 
-           
-            $(".card-body").append(uvItem);
-        })
-    }
+        if (uvResponse.value <= 5.99) {
+            numSpan.attr("style", "background-color: goldenrod;")
+        } else if (uvResponse.value > 5.99 && uvResponse.value < 8) {
+            numSpan.attr("style", "background-color: orange;")
+        } else if (uvResponse.value > 7.99 && uvResponse.value < 10.99) {
+            numSpan.attr("style", "background-color: red;")
+        } else {
+            numSpan.attr("style", "background-color: violet;")
+        }
+
+
+        $(".card-body").append(uvItem);
+    })
+}
 
 function fiveDay(city) {
     $(".fiveDay").empty()
     $(".forecastTitle").attr("style", "display: inline")
-    
+
     var currentURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
 
     $.ajax({
@@ -47,21 +47,21 @@ function fiveDay(city) {
 
         for (var i = 0; i < 5; i++) {
             var day = fiveDayResponse.list[i];
-//create variable
+            //create variable
             var dayDiv = $("<div class='card bg-warning forecast'>")
-//create date dive
+            //create date dive
             var eachEpoch = moment.unix(day.dt);
             var eachDate = eachEpoch.format("M/DD/YY")
             var dateHead = $("<h4>");
             dateHead.html(eachDate);
             dayDiv.append(dateHead);
-//create icon div
+            //create icon div
             var eachIcon = day.weather[0].icon;
             var eachURL = "http://openweathermap.org/img/wn/" + eachIcon + ".png";
             var iconTag = $("<img class='dayIcon'>")
             iconTag.attr("src", eachURL);
             dayDiv.append(iconTag);
-//temperature
+            //temperature
             var kelvin = day.main.temp;
             var farenheit = (kelvin - 273) * 1.8 + 32;
             var eachTemp = farenheit.toFixed(1);
@@ -69,15 +69,13 @@ function fiveDay(city) {
             var tempTag = $("<p>")
             tempTag.html("Temperature: " + eachTemp + "&deg F");
             dayDiv.append(tempTag);
-//humidity
+            //humidity
 
             var humTag = $("<p>");
             humTag.html("Humidity: " + day.main.humidity + "%");
-           dayDiv.append(humTag);
-           
-            $(".fiveDay").append(dayDiv);
-           
+            dayDiv.append(humTag);
 
+            $(".fiveDay").append(dayDiv);
         }
     })
 
@@ -146,11 +144,11 @@ $("#cityBtn").on("click", function () {
         console.log(lat, long);
 
         getUvIndex(lat, long);
-        
+
         fiveDay(city);
     })
 
-    
+
 
 })
 
