@@ -166,6 +166,9 @@ function fiveDay(city) {
         fiveDay(city);
     })
 }
+
+
+
 //on click event to print search field input to page
 $("#cityBtn").on("click", function () {
     $(".card-text").empty()
@@ -174,15 +177,15 @@ $("#cityBtn").on("click", function () {
     console.log(city);
     $("#inputDefault").val("");
 
-    printSave(city);
+    
     printAll(city);
+    printSave(city);
 
     var lastCity = city;
 
     localStorage.setItem("LastCity", lastCity);   
 })
 
-// onclick event to print search button content to page.
 $("#saveCity").on("click", function() {
-    alert("hello");
+    console.log("hello");
 })
