@@ -1,10 +1,47 @@
 var apiKey = "9cd194d163b26eabb565a48c6fa01c91"
 
-// Function to get and print UV Index
-function getUvIndex(lat, long) {
+//Prints new button to recent search list
+function printSave(place) {
+    var newBtn = $("<div class='alert alert-primary'>");
+    newBtn.text(place);
+    $(".list-group").append(newBtn);
+}
 
-    //Dollar sign in url = template literals. Back ticks, dollar sign, curly bracket
-    //Blake also said something about keeping functions available for page refresh?
+//Turn epoch into date and print it to page
+function getDate(object) {
+    var epoch = moment.unix(object.dt);
+    var date = epoch.format("(M/DD/YY)")
+    return date;
+}
+
+//Get retrieve icon url
+function printIcon(object) {
+    var iconcode = object.weather[0].icon;
+    var iconURL = "http://openweathermap.org/img/wn/" + iconcode + ".png";
+    return iconURL
+}
+
+//Convert temp to farenheit
+function getTemp(object) {
+    var kelvin = object.main.temp;
+    var farenheit = (kelvin - 273) * 1.8 + 32;
+    var temp = farenheit.toFixed(1);
+    return temp;
+}
+
+//Get windspeed
+function getWindSpeed(object) {
+    var speedMPS = object.wind.speed;
+    var convertSpeed = speedMPS * 2.2369;
+    var speed = convertSpeed.toFixed(1);
+    return speed;
+}
+
+// Function to get and print UV Index
+function getUvIndex(object) {
+    var lat = object.coord.lat;
+    var long = object.coord.lon;
+
     var uvURL = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${apiKey}`;
 
     $.ajax({
@@ -27,12 +64,11 @@ function getUvIndex(lat, long) {
         } else {
             numSpan.attr("style", "background-color: violet;")
         }
-
-
         $(".card-body").append(uvItem);
     })
 }
 
+//Function to get and print five day forecast
 function fiveDay(city) {
     $(".fiveDay").empty()
     $(".forecastTitle").attr("style", "display: inline")
@@ -49,23 +85,21 @@ function fiveDay(city) {
             var day = fiveDayResponse.list[i];
             //create variable
             var dayDiv = $("<div class='card bg-warning forecast'>")
+
             //create date dive
-            var eachEpoch = moment.unix(day.dt);
-            var eachDate = eachEpoch.format("M/DD/YY")
+            var eachDate = getDate(day)
             var dateHead = $("<h4>");
             dateHead.html(eachDate);
             dayDiv.append(dateHead);
+
             //create icon div
-            var eachIcon = day.weather[0].icon;
-            var eachURL = "http://openweathermap.org/img/wn/" + eachIcon + ".png";
+            var eachURL = printIcon(day);
             var iconTag = $("<img class='dayIcon'>")
             iconTag.attr("src", eachURL);
             dayDiv.append(iconTag);
-            //temperature
-            var kelvin = day.main.temp;
-            var farenheit = (kelvin - 273) * 1.8 + 32;
-            var eachTemp = farenheit.toFixed(1);
 
+            //temperature
+            var eachTemp = getTemp(day);
             var tempTag = $("<p>")
             tempTag.html("Temperature: " + eachTemp + "&deg F");
             dayDiv.append(tempTag);
@@ -81,13 +115,7 @@ function fiveDay(city) {
 
 }
 
-//on click event
-$("#cityBtn").on("click", function () {
-    $(".card-text").empty()
-
-    var city = $("#inputDefault").val().trim();
-    console.log(city);
-    $("#inputDefault").val("");
+ function printAll (city) {
     var currentURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
 
     $.ajax({
@@ -96,28 +124,16 @@ $("#cityBtn").on("click", function () {
     }).then(function (response) {
         console.log(response);
 
-        //Creat new button for city menu
-        var newBtn = $("<div class='alert alert-primary'>");
-        newBtn.text(city);
-        $(".list-group").append(newBtn);
-
         //Retrieve date and format it
-        var epoch = moment.unix(response.dt);
-        var date = epoch.format("(M/DD/YY)")
-
-        //Pring location and date
-        $(".card-title").text(response.name + " " + date);
+        var thisDate = getDate(response);
+        $(".card-title").text(response.name + " " + thisDate);
 
         //Print Icon
-        var iconcode = response.weather[0].icon;
-        var iconURL = "http://openweathermap.org/img/wn/" + iconcode + ".png";
-        $(".icon").attr("src", iconURL);
+        var icon = printIcon(response);
+        $(".icon").attr("src", icon);
 
         //Print temperature
-        var kelvin = response.main.temp;
-        var farenheit = (kelvin - 273) * 1.8 + 32;
-        var farPrint = farenheit.toFixed(1);
-
+        var farPrint = getTemp(response);
         var tempItem = $("<p class='card-text'>");
         tempItem.html("Temperature: " + farPrint + "&deg F");
         $(".card-body").append(tempItem);
@@ -128,27 +144,36 @@ $("#cityBtn").on("click", function () {
         $(".card-body").append(humItem);
 
         //Print wind speed
-        var speedMPS = response.wind.speed;
-        var convertSpeed = speedMPS * 2.2369;
 
-        var windSpeed = convertSpeed.toFixed(1);
+        var windSpeed = getWindSpeed(response);
         var windItem = $("<p class='card-text'>");
         windItem.html("Wind Speed: " + windSpeed + " MPH");
         $(".card-body").append(windItem);
 
         //Print UV Index
-        var lat = response.coord.lat;
-        // lat = lat.toFixed(2);
-        var long = response.coord.lon;
-        // long= long.toFixed(2);
-        console.log(lat, long);
+        getUvIndex(response);
 
-        getUvIndex(lat, long);
-
+        //Print 5 day
         fiveDay(city);
     })
+}
+//on click event to print search field input to page
+$("#cityBtn").on("click", function () {
+    $(".card-text").empty()
 
+    var city = $("#inputDefault").val().trim();
+    console.log(city);
+    $("#inputDefault").val("");
 
-
+    printSave(city);
+    printAll(city);
+    
 })
 
+//onclick event to print search button content to page.
+$(".alert").on("click", function() {
+    $(".card-text").empty()
+
+    var saveCity = $(this).html();
+    console.log(saveCity);
+})
