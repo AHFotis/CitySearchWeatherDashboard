@@ -1,8 +1,17 @@
 var apiKey = "9cd194d163b26eabb565a48c6fa01c91"
 
+function renderLast () {
+var location = localStorage.getItem("LastCity");
+if (location !== null) {
+printAll(location);
+}
+}
+renderLast();
+
+
 //Prints new button to recent search list
 function printSave(place) {
-    var newBtn = $("<div class='alert alert-primary'>");
+    var newBtn = $("<div class='btn btn-primary' id='saveCity'>");
     newBtn.text(place);
     $(".list-group").append(newBtn);
 }
@@ -167,13 +176,13 @@ $("#cityBtn").on("click", function () {
 
     printSave(city);
     printAll(city);
-    
+
+    var lastCity = city;
+
+    localStorage.setItem("LastCity", lastCity);   
 })
 
-//onclick event to print search button content to page.
-$(".alert").on("click", function() {
-    $(".card-text").empty()
-
-    var saveCity = $(this).html();
-    console.log(saveCity);
+// onclick event to print search button content to page.
+$("#saveCity").on("click", function() {
+    alert("hello");
 })
