@@ -78,25 +78,32 @@ function getUvIndex(object) {
 }
 
 //Function to get and print five day forecast
-function fiveDay(city) {
+function fiveDay(object) {
     $(".fiveDay").empty()
     $(".forecastTitle").attr("style", "display: inline")
 
-    var currentURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
+    var lat = object.coord.lat;
+    var long = object.coord.lon;
+
+    // var currentURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
+    var currentURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=current,minutely,hourly,alerts&appid=${apiKey}`
 
     $.ajax({
         method: "GET",
         url: currentURL
     }).then(function (fiveDayResponse) {
-        console.log(fiveDayResponse)
+        var forecast = (fiveDayResponse.daily)
+        console.log(forecast)
 
-        for (var i = 0; i < 5; i++) {
-            var day = fiveDayResponse.list[i];
+        for (var i = 1; i < 6; i++) {
+            var day = forecast[i];
+            console.log(day);
             //create variable
             var dayDiv = $("<div class='card bg-warning forecast'>")
 
             //create date dive
-            var eachDate = getDate(day)
+            var eachDate = getDate(day);
+            // console.log(eachDate);
             var dateHead = $("<h4>");
             dateHead.html(eachDate);
             dayDiv.append(dateHead);
@@ -108,14 +115,16 @@ function fiveDay(city) {
             dayDiv.append(iconTag);
 
             //temperature
-            var eachTemp = getTemp(day);
+            var kelvin = day.temp.max;
+            var farenheit = (kelvin - 273) * 1.8 + 32;
+            var temp = farenheit.toFixed(1);
             var tempTag = $("<p>")
-            tempTag.html("Temperature: " + eachTemp + "&deg F");
+            tempTag.html("Temperature: " + temp + "&deg F");
             dayDiv.append(tempTag);
             //humidity
 
             var humTag = $("<p>");
-            humTag.html("Humidity: " + day.main.humidity + "%");
+            humTag.html("Humidity: " + day.humidity + "%");
             dayDiv.append(humTag);
 
             $(".fiveDay").append(dayDiv);
@@ -163,10 +172,25 @@ function fiveDay(city) {
         getUvIndex(response);
 
         //Print 5 day
-        fiveDay(city);
+        fiveDay(response);
     })
 }
 
+//Function to save recent list of searches
+function listStorage(city) {
+var cities = localStorage.getItem("Cities");
+console.log(cities)
+
+    var openArray = [];
+
+    if (cities !== null) {
+        openArray.push(cities)
+    }
+
+    openArray.push(city)
+
+    localStorage.setItem("Cities", openArray);
+}
 
 
 //on click event to print search field input to page
@@ -177,13 +201,16 @@ $("#cityBtn").on("click", function () {
     console.log(city);
     $("#inputDefault").val("");
 
-    
+    try {
     printAll(city);
+    }
+    catch(err) {
+        $(".card-text").empty()
+    }
     printSave(city);
 
-    var lastCity = city;
-
-    localStorage.setItem("LastCity", lastCity);   
+    localStorage.setItem("LastCity", city);   
+    listStorage(city);
 })
 
 //Document helps when you are appending new classes that might not live on the page at first
@@ -197,5 +224,6 @@ $(document).on("click", ".saveCity", function() {
     printAll(newCity);
 
     localStorage.setItem("LastCity", newCity);
-
  })
+
+ 
