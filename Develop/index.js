@@ -11,7 +11,7 @@ renderLast();
 
 //Prints new button to recent search list
 function printSave(place) {
-    var newBtn = $("<div class='btn btn-primary' id='saveCity'>");
+    var newBtn = $("<button class='btn btn-primary saveCity'>");
     newBtn.text(place);
     $(".list-group").append(newBtn);
 }
@@ -186,6 +186,16 @@ $("#cityBtn").on("click", function () {
     localStorage.setItem("LastCity", lastCity);   
 })
 
-$("#saveCity").on("click", function() {
+//Document helps when you are appending new classes that might not live on the page at first
+$(document).on("click", ".saveCity", function() {
     console.log("hello");
-})
+    $(".card-text").empty()
+
+    var newCity = $(this).text();
+    console.log(newCity);
+
+    printAll(newCity);
+
+    localStorage.setItem("LastCity", newCity);
+
+ })
