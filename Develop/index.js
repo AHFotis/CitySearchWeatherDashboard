@@ -73,7 +73,7 @@ function getUvIndex(object) {
         } else {
             numSpan.attr("style", "background-color: violet;")
         }
-        $(".card-body").append(uvItem);
+        $(".mainBody").append(uvItem);
     })
 }
 
@@ -99,7 +99,7 @@ function fiveDay(object) {
             var day = forecast[i];
             console.log(day);
             //create variable
-            var dayDiv = $("<div class='card bg-warning forecast'>")
+            var dayDiv = $("<div class='card bg-light forecast'>")
 
             //create date dive
             var eachDate = getDate(day);
@@ -144,7 +144,7 @@ function fiveDay(object) {
 
         //Retrieve date and format it
         var thisDate = getDate(response);
-        $(".card-title").text(response.name + " " + thisDate);
+        $(".mainTitle").text(response.name + " " + thisDate);
 
         //Print Icon
         var icon = printIcon(response);
@@ -154,19 +154,19 @@ function fiveDay(object) {
         var farPrint = getTemp(response);
         var tempItem = $("<p class='card-text'>");
         tempItem.html("Temperature: " + farPrint + "&deg F");
-        $(".card-body").append(tempItem);
+        $(".mainBody").append(tempItem);
 
         //Print Humidity
         var humItem = $("<p class='card-text'>");
         humItem.html("Humidity: " + response.main.humidity + "%");
-        $(".card-body").append(humItem);
+        $(".mainBody").append(humItem);
 
         //Print wind speed
 
         var windSpeed = getWindSpeed(response);
         var windItem = $("<p class='card-text'>");
         windItem.html("Wind Speed: " + windSpeed + " MPH");
-        $(".card-body").append(windItem);
+        $(".mainBody").append(windItem);
 
         //Print UV Index
         getUvIndex(response);
