@@ -1,12 +1,24 @@
 var apiKey = "9cd194d163b26eabb565a48c6fa01c91"
 
 function renderLast () {
+
 var location = localStorage.getItem("LastCity");
 if (location !== null) {
+$(".master").attr("style", "display; visible")
 printAll(location);
+renderLastButtons();
 }
 }
 renderLast();
+
+function renderLastButtons () {
+    var list = JSON.parse(localStorage.getItem("Cities"));
+    if (list !== null) {
+        for (var j = 0; j < list.length; j++) {
+            printSave(list[j]);
+        }
+    }
+}
 
 
 //Prints new button to recent search list
@@ -178,35 +190,34 @@ function fiveDay(object) {
 
 //Function to save recent list of searches
 function listStorage(city) {
-var cities = localStorage.getItem("Cities");
+var cities = JSON.parse(localStorage.getItem("Cities"));
 console.log(cities)
 
-    var openArray = [];
+var openArray = [];
 
-    if (cities !== null) {
-        openArray.push(cities)
-    }
+    if (cities == null) {
+        openArray.push(city);
+        localStorage.setItem("Cities", JSON.stringify(openArray));
+        } else {
+            cities.push(city)
+            localStorage.setItem("Cities", JSON.stringify(cities));
+        }
+   
 
-    openArray.push(city)
-
-    localStorage.setItem("Cities", openArray);
 }
 
 
 //on click event to print search field input to page
 $("#cityBtn").on("click", function () {
     $(".card-text").empty()
+    $(".master").attr("style", "display; visible")
 
     var city = $("#inputDefault").val().trim();
     console.log(city);
     $("#inputDefault").val("");
 
-    try {
+    
     printAll(city);
-    }
-    catch(err) {
-        $(".card-text").empty()
-    }
     printSave(city);
 
     localStorage.setItem("LastCity", city);   
