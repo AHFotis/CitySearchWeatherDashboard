@@ -1,17 +1,17 @@
 var apiKey = "9cd194d163b26eabb565a48c6fa01c91"
 
-function renderLast () {
+function renderLast() {
 
-var location = localStorage.getItem("LastCity");
-if (location !== null) {
-$(".master").attr("style", "display; visible")
-printAll(location);
-renderLastButtons();
-}
+    var location = localStorage.getItem("LastCity");
+    if (location !== null) {
+        $(".master").attr("style", "display; visible")
+        printAll(location);
+        renderLastButtons();
+    }
 }
 renderLast();
 
-function renderLastButtons () {
+function renderLastButtons() {
     var list = JSON.parse(localStorage.getItem("Cities"));
     if (list !== null) {
         for (var j = 0; j < list.length; j++) {
@@ -20,10 +20,9 @@ function renderLastButtons () {
     }
 }
 
-
 //Prints new button to recent search list
 function printSave(place) {
-    var newBtn = $("<button class='btn btn-primary saveCity'>");
+    var newBtn = $("<button class='btn btn-primary m-1 saveCity'>");
     newBtn.text(place);
     $(".list-group").append(newBtn);
 }
@@ -77,7 +76,7 @@ function getUvIndex(object) {
         uvItem.append(numSpan);
 
         if (uvResponse.value <= 5.99) {
-            numSpan.attr("style", "background-color: goldenrod;")
+            numSpan.attr("style", "background-color: green;")
         } else if (uvResponse.value > 5.99 && uvResponse.value < 8) {
             numSpan.attr("style", "background-color: orange;")
         } else if (uvResponse.value > 7.99 && uvResponse.value < 10.99) {
@@ -97,7 +96,6 @@ function fiveDay(object) {
     var lat = object.coord.lat;
     var long = object.coord.lon;
 
-    // var currentURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
     var currentURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=current,minutely,hourly,alerts&appid=${apiKey}`
 
     $.ajax({
@@ -111,7 +109,7 @@ function fiveDay(object) {
             var day = forecast[i];
             console.log(day);
             //create variable
-            var dayDiv = $("<div class='card bg-light forecast'>")
+            var dayDiv = $("<div class='card bg-dark p-1 forecast'>")
 
             //create date dive
             var eachDate = getDate(day);
@@ -145,8 +143,8 @@ function fiveDay(object) {
 
 }
 
- function printAll (city) {
-    var currentURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
+function printAll(city) {
+    var currentURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 
     $.ajax({
         method: "GET",
@@ -190,19 +188,19 @@ function fiveDay(object) {
 
 //Function to save recent list of searches
 function listStorage(city) {
-var cities = JSON.parse(localStorage.getItem("Cities"));
-console.log(cities)
+    var cities = JSON.parse(localStorage.getItem("Cities"));
+    console.log(cities)
 
-var openArray = [];
+    var openArray = [];
 
     if (cities == null) {
         openArray.push(city);
         localStorage.setItem("Cities", JSON.stringify(openArray));
-        } else {
-            cities.push(city)
-            localStorage.setItem("Cities", JSON.stringify(cities));
-        }
-   
+    } else {
+        cities.push(city)
+        localStorage.setItem("Cities", JSON.stringify(cities));
+    }
+
 
 }
 
@@ -216,16 +214,16 @@ $("#cityBtn").on("click", function () {
     console.log(city);
     $("#inputDefault").val("");
 
-    
+
     printAll(city);
     printSave(city);
 
-    localStorage.setItem("LastCity", city);   
+    localStorage.setItem("LastCity", city);
     listStorage(city);
 })
 
 //Document helps when you are appending new classes that might not live on the page at first
-$(document).on("click", ".saveCity", function() {
+$(document).on("click", ".saveCity", function () {
     console.log("hello");
     $(".card-text").empty()
 
@@ -235,6 +233,5 @@ $(document).on("click", ".saveCity", function() {
     printAll(newCity);
 
     localStorage.setItem("LastCity", newCity);
- })
+})
 
- 

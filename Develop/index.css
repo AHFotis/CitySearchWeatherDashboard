@@ -11,8 +11,11 @@
     margin: 5px;
 }
 
-
 label {
+    color: white;
+}
+
+.master {
     color: white;
 }
 
@@ -28,14 +31,15 @@ label {
     height: 30px;
     width: 60px;
     font-size: 16px;
-   
+    color: white;
 }
 
 .forecast {
-    height: 150px;
-    width: 150px;
+    height: 165px;
+    width: 165px;
     float: left;
     margin: 7px;
+    color: white;
 }
 
 .dayIcon {
