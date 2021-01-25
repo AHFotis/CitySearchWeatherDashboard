@@ -4,7 +4,6 @@ var apiKey = "9cd194d163b26eabb565a48c6fa01c91"
 function renderLast() {
     var location = localStorage.getItem("LastCity");
     if (location !== null) {
-        $(".master").attr("style", "display; visible")
         printButtonInfo(location);
         renderLastButtons();
     }
@@ -16,13 +15,13 @@ function renderLastButtons() {
     var list = JSON.parse(localStorage.getItem("Cities"));
     if (list !== null) {
         for (var j = 0; j < list.length; j++) {
-            printSave(list[j]);
+            printNewButton(list[j]);
         }
     }
 }
 
 //Prints new button to recent search list
-function printSave(place) {
+function printNewButton(place) {
     var newBtn = $("<button class='btn btn-primary m-1 saveCity'>");
     newBtn.text(place);
     $(".list-group").append(newBtn);
@@ -141,8 +140,46 @@ function fiveDay(object) {
 
 }
 
-//Function to render city when first submitted and save to local storage.
-function printAll(city) {
+//Function to get and print info
+function printAll(object) {
+
+    $(".master").attr("style", "display; visible")
+    $(".card-text").empty()
+
+    //Retrieve date and format it
+    var thisDate = getDate(object);
+    $(".mainTitle").text(object.name + " " + thisDate);
+
+    //Print Icon
+    var icon = printIcon(object);
+    $(".icon").attr("src", icon);
+
+    //Print temperature
+    var farPrint = getTemp(object);
+    var tempItem = $("<p class='card-text'>");
+    tempItem.html("Temperature: " + farPrint + "&deg F");
+    $(".mainBody").append(tempItem);
+
+    //Print Humidity
+    var humItem = $("<p class='card-text'>");
+    humItem.html("Humidity: " + object.main.humidity + "%");
+    $(".mainBody").append(humItem);
+
+    //Print wind speed
+    var windSpeed = getWindSpeed(object);
+    var windItem = $("<p class='card-text'>");
+    windItem.html("Wind Speed: " + windSpeed + " MPH");
+    $(".mainBody").append(windItem);
+
+    //Print UV Index
+    getUvIndex(object);
+
+    //Print 5 day
+    fiveDay(object);
+}
+
+//Function to render city when first submitted and save to local storage. Also catches errors
+function getWeatherInfo(city) {
     var currentURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 
     $.ajax({
@@ -150,43 +187,10 @@ function printAll(city) {
         url: currentURL,
         success: function (response) {
 
-        $(".master").attr("style", "display; visible")
-        $(".card-text").empty()
-
-        //Retrieve date and format it
-        var thisDate = getDate(response);
-        $(".mainTitle").text(response.name + " " + thisDate);
-
-        //Print Icon
-        var icon = printIcon(response);
-        $(".icon").attr("src", icon);
-
-        //Print temperature
-        var farPrint = getTemp(response);
-        var tempItem = $("<p class='card-text'>");
-        tempItem.html("Temperature: " + farPrint + "&deg F");
-        $(".mainBody").append(tempItem);
-
-        //Print Humidity
-        var humItem = $("<p class='card-text'>");
-        humItem.html("Humidity: " + response.main.humidity + "%");
-        $(".mainBody").append(humItem);
-
-        //Print wind speed
-        var windSpeed = getWindSpeed(response);
-        var windItem = $("<p class='card-text'>");
-        windItem.html("Wind Speed: " + windSpeed + " MPH");
-        $(".mainBody").append(windItem);
-
-        //Print UV Index
-        getUvIndex(response);
-
-        //Print 5 day
-        fiveDay(response);
-
-        printSave(city);
-        localStorage.setItem("LastCity", city);
-        listStorage(city);
+            printAll(response)
+            printNewButton(city);
+            localStorage.setItem("LastCity", city);
+            listStorage(city);
         },
 
         error: function (jqXHR) {
@@ -202,47 +206,15 @@ function printAll(city) {
 }
 
 //Function to reprint info from button
-function printButtonInfo (city) {
+function printButtonInfo(city) {
     var currentURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 
     $.ajax({
         method: "GET",
         url: currentURL,
     }).then(function (buttonResponse) {
-
-        $(".master").attr("style", "display; visible")
-
-        //Retrieve date and format it
-        var thisDate = getDate(buttonResponse);
-        $(".mainTitle").text(buttonResponse.name + " " + thisDate);
-
-        //Print Icon
-        var icon = printIcon(buttonResponse);
-        $(".icon").attr("src", icon);
-
-        //Print temperature
-        var farPrint = getTemp(buttonResponse);
-        var tempItem = $("<p class='card-text'>");
-        tempItem.html("Temperature: " + farPrint + "&deg F");
-        $(".mainBody").append(tempItem);
-
-        //Print Humidity
-        var humItem = $("<p class='card-text'>");
-        humItem.html("Humidity: " + buttonResponse.main.humidity + "%");
-        $(".mainBody").append(humItem);
-
-        //Print wind speed
-        var windSpeed = getWindSpeed(buttonResponse);
-        var windItem = $("<p class='card-text'>");
-        windItem.html("Wind Speed: " + windSpeed + " MPH");
-        $(".mainBody").append(windItem);
-
-        //Print UV Index
-        getUvIndex(buttonResponse);
-
-        //Print 5 day
-        fiveDay(buttonResponse);
-})
+        printAll(buttonResponse);
+    })
 }
 
 //Function to save recent list of searches
@@ -266,12 +238,11 @@ $("#cityBtn").on("click", function () {
     var city = $("#inputDefault").val().trim();
     $("#inputDefault").val("");
 
-    printAll(city);
+    getWeatherInfo(city);
 })
 
 //Document helps when you are appending new classes that might not live on the page at first
 $(document).on("click", ".saveCity", function () {
-    $(".card-text").empty()
 
     var newCity = $(this).text();
 
