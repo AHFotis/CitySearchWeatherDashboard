@@ -5,7 +5,7 @@
 
 .searchBar {
     float: left;
-    width: 400px;
+    width: 350px;
     border: 1px solid rgb(255, 255, 255, .3);
     padding: 10px;
     margin: 5px;
@@ -64,11 +64,50 @@ label {
 
   }
 
-  @media screen and (max-width: 544px) {
+@media screen and (max-width: 544px) {
 
     .searchBar {
       width: 290px;
     }
+    
+    .break {
+        display: block;
+    }
 
   }
 
+@media screen and (max-width: 530px) {
+
+    .searchBar {
+      width: 250px;
+    }
+
+  }
+
+@media screen and (max-width: 490px) {
+
+  
+    .searchBar {
+        width: 200px;
+      }
+  
+    }
+
+@media screen and (max-width: 440px) {
+
+  
+    .searchBar {
+        width: 150px;
+    }
+      
+    }
+
+@media screen and (max-width: 390px) {
+
+  
+.searchBar {
+    width: 125px;
+    }
+          
+    }
+    
