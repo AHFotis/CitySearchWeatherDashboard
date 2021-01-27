@@ -54,3 +54,21 @@ label {
     height: 50px;
     width: 50px;
 }
+
+/* Media queries */
+@media screen and (max-width: 646px) {
+
+    .searchBar {
+      width: 310px;
+    }
+
+  }
+
+  @media screen and (max-width: 544px) {
+
+    .searchBar {
+      width: 290px;
+    }
+
+  }
+
