@@ -1,7 +1,9 @@
-# Weather Dashboard
+# City Search: A Weather Dashboard
 An easy to use platform for comprehensive weather information per city.
 
 ## Deployed Site
+
+Visit the live page [here](https://ahfotis.github.io/WeatherDashboard/).
 
 ## Reference Image
 
@@ -9,6 +11,20 @@ The following image showcases the app's form and function.
 ![Weather Dashboard](Assets/AppImage.png)
 
 ## App Overview
+This app serves as a tool to compare weather conditions in multiple cities at once. The basic funcionality is as follows:
+* Users input a city in the search input field.
+* When the user presses a the submit button, the body of the page fills with the following information:
+    * City name
+    * City's local date
+    * Visual Icon reflecting weather conditions
+    * City's local temperature
+    * City's local humidity
+    * City's local wind speed
+    * City's local UV Index
+    * A five day forecase featuring date, weather icon, temperatrue, and humidity
+* The searched for city is then added to the recent search list below the input field.
+* When a user clicks on a previously saved city, that city's wehater info repopulates in the body of the page.
+* When the page is refreshed, local storage is used to display the info for the last searched for city on the page.
 
 ## Project Criteria
 ### User Story
@@ -38,5 +54,11 @@ THEN I am presented with the last searched city forecast
 ```
 
 ## Credits
+Weather info reutrned from OpenWeatherMap API.
+Bootstrap and Bootswatch utilized for design.
+Criteria provided by Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.
 
 ## License
+MIT License
+
+Copyright (c) [2021] [Anna Hickey Fotis]
