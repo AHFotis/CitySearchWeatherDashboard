@@ -178,7 +178,7 @@ function printAll(object) {
     fiveDay(object);
 }
 
-//Function to render city when first submitted and save to local storage. Also catches errors
+//Function to render city when first submitted and save to local storage. Also catches error and alerts to page.
 function getWeatherInfo(city) {
     var currentURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 
@@ -199,8 +199,6 @@ function getWeatherInfo(city) {
             } else if (jqXHR.statusText == "Bad Request") {
                 alert("Please type in a city to get started!")
             }
-
-            console.log(jqXHR);
         }
     })
 }
@@ -241,7 +239,7 @@ $("#cityBtn").on("click", function () {
     getWeatherInfo(city);
 })
 
-//Document helps when you are appending new classes that might not live on the page at first
+//Onclick event to print that button's city info to page
 $(document).on("click", ".saveCity", function () {
 
     var newCity = $(this).text();
