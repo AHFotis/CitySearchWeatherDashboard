@@ -3,7 +3,7 @@ An easy to use platform for comprehensive weather information per city.
 
 ## Deployed Site
 
-Visit the live page [here](https://ahfotis.github.io/WeatherDashboard/).
+Visit the live page [here](https://ahfotis.github.io/CitySearchWeatherDashboard/).
 
 ## Reference Image
 
