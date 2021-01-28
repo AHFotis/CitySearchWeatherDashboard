@@ -56,19 +56,15 @@ label {
 }
 
 /* Media queries */
-@media screen and (max-width: 646px) {
+@media screen and (max-width: 777px) {
 
-    .searchBar {
-      width: 310px;
+    .master {
+        float: right;
     }
 
   }
-
+ 
 @media screen and (max-width: 544px) {
-
-    .searchBar {
-      width: 290px;
-    }
     
     .break {
         display: block;
@@ -76,7 +72,7 @@ label {
 
   }
 
-@media screen and (max-width: 530px) {
+ @media screen and (max-width: 370px) {
 
     .searchBar {
       width: 250px;
@@ -84,30 +80,4 @@ label {
 
   }
 
-@media screen and (max-width: 490px) {
-
-  
-    .searchBar {
-        width: 200px;
-      }
-  
-    }
-
-@media screen and (max-width: 440px) {
-
-  
-    .searchBar {
-        width: 150px;
-    }
-      
-    }
-
-@media screen and (max-width: 390px) {
-
-  
-.searchBar {
-    width: 125px;
-    }
-          
-    }
-    
+     
