@@ -37,7 +37,7 @@ function getDate(object) {
 //Retrieve icon url
 function printIcon(object) {
     var iconcode = object.weather[0].icon;
-    var iconURL = "http://openweathermap.org/img/wn/" + iconcode + ".png";
+    var iconURL = "https://openweathermap.org/img/wn/" + iconcode + ".png";
     return iconURL
 }
 
