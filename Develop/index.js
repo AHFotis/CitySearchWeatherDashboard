@@ -62,7 +62,7 @@ function getUvIndex(object) {
     var lat = object.coord.lat;
     var long = object.coord.lon;
 
-    var uvURL = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${apiKey}`;
+    var uvURL = `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${apiKey}`;
 
     $.ajax({
         method: "GET",
