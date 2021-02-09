@@ -9,6 +9,7 @@ Visit the live page [here](https://ahfotis.github.io/CitySearchWeatherDashboard/
 
 The following image showcases the app's form and function.
 ![Weather Dashboard](Assets/AppImage.png)
+![Action](Assets/CitySearch.gif)
 
 ## App Overview
 This app serves as a tool to compare weather conditions in multiple cities at once. The basic funcionality is as follows:
@@ -25,6 +26,9 @@ This app serves as a tool to compare weather conditions in multiple cities at on
 * The searched for city is then added to the recent search list below the input field.
 * When a user clicks on a previously saved city, that city's wehater info repopulates in the body of the page.
 * When the page is refreshed, local storage is used to display the info for the last searched for city on the page.
+
+## Technologies Used
+HTML, CSS, JavaScript, jQuery, Moment.js, Bootstrap, Bootswatch, Open Weather Map API.
 
 ## Project Criteria
 ### User Story
@@ -57,6 +61,8 @@ THEN I am presented with the last searched city forecast
 Weather info reutrned from OpenWeatherMap API.
 Bootstrap and Bootswatch utilized for design.
 Criteria provided by Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.
+
+Sole Author - Anna Hickey Fotis - annahickey2@gmail.com
 
 ## License
 MIT License
